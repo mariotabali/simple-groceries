@@ -1,0 +1,7 @@
+{
+  "name": "tobuyfario",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "react"
+}
