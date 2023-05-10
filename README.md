@@ -1,2 +1,4 @@
-# simple-groceries
-simple groceries react ionic
+To build
+--------
+ionic build
+ionic serve
