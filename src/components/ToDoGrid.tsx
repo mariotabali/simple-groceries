@@ -1,6 +1,9 @@
 import { Component } from 'react';
 import ToDoRow from './ToDoRow';
 import { IonButton, IonList } from '@ionic/react';
+import { groceriesRef } from '../firebase';
+import { child, get, onValue,set, ref } from "firebase/database";
+
 
 interface IItem {
     field: string,
@@ -27,9 +30,26 @@ class ToDoGrid extends Component <IProps, IState> {
             }
             );
     };
+    updateData = () => {
+          set(groceriesRef, {
+            username: 'asd',
+            email: '111',
+          });
+        
+    };
+    itemChanged(event: any) {
+      console.log(event.target.value)
+    }
+    componentDidMount() {
+        onValue(groceriesRef, (snapshot) => {
+            const data = snapshot;
+            console.log(data.val());
+          });
+        this.updateData();
+    }
+    
     constructor(props: IProps) {
         super(props);
-        console.log("len" + props.names.length);
         this.state = {
             items: [{
                 field: "B",
@@ -42,7 +62,13 @@ class ToDoGrid extends Component <IProps, IState> {
         return (
             <IonList>
                 {
-                    this.state.items.map((key) => (<ToDoRow id={key.field} key={key.field} quantity = {key.value}/>))
+                    this.state.items.map((key) => (<ToDoRow
+                        id={ key.field }
+                        key={ key.field }
+                        quantity = { key.value }
+                        handleChange = { this.itemChanged }
+                        />)
+                    )
                 }
                 <IonButton onClick = {this.add} />
             </IonList>
